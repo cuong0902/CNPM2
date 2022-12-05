@@ -1,0 +1,95 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Clinic - Schedule {% endblock %}
+
+{% block content %}
+    <div class="page-content">
+        <!--section-->
+        <div class="section mt-0">
+            <div class="breadcrumbs-wrap">
+                <div class="container">
+                    <div class="breadcrumbs">
+                        <a href="index.html">Home</a>
+                        <span>Checkup Timetable</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--//section-->
+        <!--section-->
+        <div class="section page-content-first">
+            <div class="container">
+                <div class="text-center mb-2  mb-md-3 mb-lg-4">
+                    <div class="h-sub theme-color">Schedule's Clinic</div>
+                    <h1>Checkup Timetable</h1>
+                    <div class="h-decor"></div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="text-center mb-4 mb-md-5 max-900">
+                    <p>Need to make a pediatric dentist appointment this week? Use our Timetable to find dentists you
+                        who take your insurance. It’s simple to check their availabilities here. </p>
+                </div>
+                <div id="tab-content" class="tab-content mt-3 mt-md-4">
+                    <div class="tab-pane fade show active" role="tabpanel">
+                        <div class="cd-schedule loading">
+                            <div class="timeline">
+                                <div class="timeline-top-info"><span>Hours</span></div>
+                                <ul>
+                                    {% for i in range(8, 20) %}
+                                        <li><span>{{ '{:02d}:00'.format(i) }}</span></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="events">
+                                <ul>
+                                    {% for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] %}
+                                        <li class="events-group">
+                                            <div class="schedule-top-info"><span>{{ day }}</span></div>
+                                            {% if day != 'Sunday' %}
+                                                <ul>
+                                                    {% for i in range(8, 20) %}
+                                                        {% if not i in [12, 19] %}
+                                                            <li class="doctor-card"
+                                                                data-start="{{ '{:02d}:00'.format(i) }}"
+                                                                data-end="{{ '{:02d}:00'.format(i + 1) }}"
+                                                                data-day="{{ day }}"
+                                                                data-event="event-1"
+                                                                onclick="booking(this, '{{ day }}')"
+                                                            >
+                                                                <a href="#" data-toggle="modal"
+                                                                   data-target="#modalBookingForm"
+                                                                >
+                                                                    0/{{ booking_max }}
+                                                                </a>
+                                                            </li>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--//section-->
+        </div>
+    </div>
+{% endblock %}
+
+{% block modal %}
+    {% include 'layout/modal-booking.html' %}
+{% endblock %}
+
+{% block script %}
+     <script>
+        $DAYS = {'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6, 'Sunday': 0}
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        $BOOKING_MAX = {{ booking_max }};
+    </script>
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/schedule.js') }}"></script>
+{% endblock %}

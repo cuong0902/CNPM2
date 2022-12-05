@@ -1,0 +1,82 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Clinic - Log in or sign up{% endblock %}
+
+{% block stylesheets %}
+    <!-- stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
+
+{% block body %}
+    <body>
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form id="registerForm" method="post">
+                <h2>Create An Account</h2>
+                <label for="registerName">
+                    <input type="text" name="registerName" placeholder="Name" id="registerName"/>
+                </label>
+                <label for="registerEmail">
+                    <input type="text" name="registerEmail" placeholder="Email" id="registerEmail"/>
+                </label>
+                <label for="registerPassword">
+                    <input type="password" name="registerPassword" placeholder="Password" id="registerPassword"/>
+                </label>
+                <label for="registerConfirmPassword">
+                    <input type="password" name="registerConfirmPassword" placeholder="Confirm Password" id="registerConfirmPassword"/>
+                </label>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form method="post" id="loginForm">
+                <h1>Sign in</h1>
+                <div class="social-container">
+                    <a href="#" class="social f"><i class="fab fa-facebook-f"></i></a>
+                    <a href="/user-login/google" class="social g"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social in"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your account</span>
+                <label for="email">
+                    <input type="text" name="email" placeholder="Email" id="email">
+                </label>
+                <label for="password">
+                    <input type="password" name="password" placeholder="Password" id="password">
+                </label>
+                <button type="submit">Sign In</button>
+                <a href="#">Forgot your password?</a>
+            </form>
+        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected with us please login with your personal info</p>
+                    <button class="ghost" id="signIn">Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details and start journey with us</p>
+                    <button class="ghost" id="signUp">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block script %}
+        {{ super() }}
+        <script type="text/javascript">
+            const container = document.getElementById('container');
+
+            document.getElementById('signUp').addEventListener('click', () => {
+                container.classList.add("right-panel-active");
+            });
+
+            document.getElementById('signIn').addEventListener('click', () => {
+                container.classList.remove("right-panel-active");
+            });
+        </script>
+    {% endblock %}
+    </body>
+{% endblock %}
